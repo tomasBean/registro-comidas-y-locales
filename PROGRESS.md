@@ -4,9 +4,9 @@
 
 ## Hito actual
 
-**H2 (UI núcleo): terminado, PR abierto** desde `feat/h2-ui-nucleo` hacia `feat/h1-dominio`. Sigue H4 (H3 espera al backend).
+**H4 (mapa, quiero ir, los de siempre, búsqueda): terminado, PR abierto** desde `feat/h4-mapa` hacia `feat/h2-ui-nucleo`. Sigue H5. H3 espera al backend.
 
-PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`.
+PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`; #4 H4 → `feat/h2-ui-nucleo`.
 
 ## ⚠️ Antes de mergear: definir la rama principal
 
@@ -29,18 +29,22 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - **H2** (2026-11-11):
   - Pantallas: inicio (últimas visitas), lugares, ficha de lugar (promedio, evolución por ítem, visitas, fotos y carta), ficha de ítem, y registrar visita con varios ítems, lugar nuevo y foto.
   - `npm run e2e -- --project=chromium-mobile`: 9 pruebas pasan. `npm run test`: 41 tests. `lint`, `typecheck`, `build` pasan.
-- **CI del PR #1 (H0):** los dos jobs en verde, incluido e2e en Chromium y WebKit.
+- **H4** (2026-11-11):
+  - Mapa con pines por tipo y filtros (tipo, categoría de ítem, puntaje mínimo); alta y edición de lugar con ubicación por "Estoy acá", búsqueda de dirección o tocando el mapa; "Abrir en Google Maps"; vistas "De siempre" y "Quiero ir"; búsqueda de lugares e ítems; ítems similares; borrar visita y lugar.
+  - `npm run e2e -- --project=chromium-mobile`: 16 pruebas pasan. `npm run test`: 57 tests. `lint`, `typecheck`, `build` pasan.
+- **CI de los PR #1 (H0) y #2 (H1):** los dos jobs en verde, incluido e2e en Chromium y WebKit.
 
 ## Sin verificar
 
 - **WebKit en H2:** en la nube no hay WebKit. Solo lo verifica el job "E2E" de CI de cada PR; mirar el del PR de H2.
+- **OpenStreetMap real:** la nube bloquea las teselas y Nominatim; las pruebas los simulan. Falta ver el mapa y una búsqueda de dirección reales. Detalle en `docs/context/mapa-y-ubicacion.md`.
 - **Fotos en iPhone real:** la cámara desde la app instalada no se probó. Checklist en `docs/context/pruebas-y-verificacion.md`.
 - **iPhone real:** instalación en pantalla de inicio, safe areas e ícono. Checklist en `docs/context/pruebas-y-verificacion.md`.
 
 ## Sigue
 
-1. **H4:** mapa, quiero ir, los de siempre, búsqueda e ítems similares (rama `feat/h4-mapa`, sale de `feat/h2-ui-nucleo`).
-2. H5 sobre `data/memory`. **H3 espera** el aviso del usuario de que el backend está listo (la sesión de Supabase deja URL y clave anon en el repo y lo indica en `docs/SETUP_SUPABASE.md`).
+1. **H5:** estadísticas y ranking propio (rama `feat/h5-estadisticas`, sale de `feat/h4-mapa`).
+2. H6: despliegue y pulido. **H3 espera** el aviso del usuario de que el backend está listo (la sesión de Supabase deja URL y clave anon en el repo y lo indica en `docs/SETUP_SUPABASE.md`).
 
 ## Decisiones tomadas
 
@@ -52,7 +56,9 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - Graphify: no se instaló desde la nube; queda como decisión del usuario. Motivos en `docs/context/graphify.md`.
 - H0: TypeScript 6.0 (no 7) porque `typescript-eslint` todavía no soporta 7. `@playwright/test` fijado en 1.63.0 para coincidir con el Chromium preinstalado. Detalle en `docs/context/andamiaje-y-tooling.md`.
 - H0: el workflow de deploy a Pages se deja para H6; en H0 solo CI.
-- H2: falta editar y borrar visitas, ítems y lugares desde la interfaz (el repositorio ya lo soporta). Se suma en H4 junto con la edición de lugares.
+- H4: las coordenadas del seed son aproximadas (puestas a ojo), no relevadas.
+- H4: se puede editar y borrar un lugar y borrar una visita. **Falta editar** una visita o una degustación ya cargada (el repositorio lo soporta; no hay pantalla). Hoy se corrige borrando la visita y cargándola de nuevo.
+- H4: "de siempre" y "quiero ir" son vistas de la pantalla Lugares, no pestañas propias.
 - H2: la app en memoria arranca con el seed y pierde los cambios al recargar.
 - H1: el seed usa fechas, precios y comentarios inventados (el brief los declara ilustrativos) y deja los lugares sin coordenadas hasta H4.
 - H1: se agregó `createdAt` a visitas, degustaciones y fotos para ordenar de forma estable. No cambia el modelo de §3.

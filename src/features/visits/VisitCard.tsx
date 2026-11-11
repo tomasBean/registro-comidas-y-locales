@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../config/locale';
 import type { VisitDetail } from '../../domain/visits';
@@ -10,9 +11,11 @@ interface VisitCardProps {
   detail: VisitDetail;
   /** Shows the place name as a link (home feed). Hidden inside the place page. */
   showPlace?: boolean;
+  /** Extra controls under the items (e.g. delete). */
+  footer?: ReactNode;
 }
 
-export function VisitCard({ detail, showPlace = false }: VisitCardProps) {
+export function VisitCard({ detail, showPlace = false, footer }: VisitCardProps) {
   const { visit, place, tastings } = detail;
   return (
     <Card>
@@ -33,6 +36,7 @@ export function VisitCard({ detail, showPlace = false }: VisitCardProps) {
             <TastingLine key={entry.tasting.id} {...entry} />
           ))}
         </ul>
+        {footer ? <div className={styles.footer}>{footer}</div> : null}
       </article>
     </Card>
   );

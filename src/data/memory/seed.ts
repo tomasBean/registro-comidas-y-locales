@@ -2,7 +2,7 @@ import type { Dataset, NotebookMember, Tasting } from '../../domain/types';
 
 /**
  * Example data from BRIEF.md §9. Illustrative: prices, dates and comments are made up,
- * and the places have no coordinates yet. Ratings are stored values (display × 2).
+ * and the coordinates are rough guesses inside Nueva Córdoba / Centro, not surveyed. Ratings are stored values (display × 2).
  */
 
 export const SEED_NOTEBOOK_ID = 'notebook-1';
@@ -45,8 +45,8 @@ export function createSeedDataset(): Dataset {
         name: 'Perdú',
         type: 'panadería',
         address: 'Rondeau, Nueva Córdoba',
-        lat: null,
-        lng: null,
+        lat: -31.4262,
+        lng: -64.187,
         status: 'visited',
         isRegular: true,
         notes: '',
@@ -58,8 +58,8 @@ export function createSeedDataset(): Dataset {
         name: 'Albuche',
         type: 'hamburguesería',
         address: 'Illia y Paraná, Nueva Córdoba',
-        lat: null,
-        lng: null,
+        lat: -31.4218,
+        lng: -64.1822,
         status: 'visited',
         isRegular: false,
         notes: '',
@@ -71,8 +71,8 @@ export function createSeedDataset(): Dataset {
         name: 'La Cabaña de Chamigo',
         type: 'panadería',
         address: 'Belgrano',
-        lat: null,
-        lng: null,
+        lat: -31.4236,
+        lng: -64.1903,
         status: 'visited',
         isRegular: false,
         notes: '',

@@ -5,6 +5,7 @@ import type { Dataset } from '../../domain/types';
 import { Button } from '../../ui/components/Button';
 import { Chip, ChipRow } from '../../ui/components/Chip';
 import { TextField } from '../../ui/components/Field';
+import { LocateButton } from '../location/LocateButton';
 import type { PlaceChoice } from './useVisitForm';
 import styles from './VisitForm.module.css';
 
@@ -72,6 +73,13 @@ export function PlacePicker({ dataset, value, onChange, error }: PlacePickerProp
           value={value.address}
           onChange={(event) => onChange({ ...value, address: event.target.value })}
         />
+        {value.location ? (
+          <p className={styles.muted} role="status">
+            Ubicación tomada. Se puede ajustar después desde la ficha del lugar.
+          </p>
+        ) : (
+          <LocateButton label="Estoy acá: usar mi ubicación" onLocated={(location) => onChange({ ...value, location })} />
+        )}
       </div>
     );
   }
@@ -102,7 +110,7 @@ export function PlacePicker({ dataset, value, onChange, error }: PlacePickerProp
           </Chip>
         ))}
         {typed && !exact ? (
-          <Chip onClick={() => onChange({ kind: 'new', name: typed, type: '', address: '' })}>Crear «{typed}»</Chip>
+          <Chip onClick={() => onChange({ kind: 'new', name: typed, type: '', address: '', location: null })}>Crear «{typed}»</Chip>
         ) : null}
       </ChipRow>
     </div>
