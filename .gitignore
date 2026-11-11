@@ -1,0 +1,24 @@
+# Dependencies and builds
+node_modules/
+dist/
+.vite/
+
+# Secrets: nunca al repo (solo las plantillas .example)
+.env
+.env.*
+!.env.example
+!.env.secrets.example
+
+# Supabase local state
+supabase/.temp/
+supabase/.branches/
+
+# Tests
+playwright-report/
+test-results/
+coverage/
+
+# Editor / OS
+.DS_Store
+*.log
+.claude/settings.local.json
