@@ -1,0 +1,25 @@
+.link {
+  display: block;
+  line-height: 0;
+}
+
+.photo {
+  display: block;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
+}
+
+.thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.full {
+  max-width: 100%;
+  height: auto;
+}
+
+.placeholder.thumb {
+  min-width: 64px;
+}

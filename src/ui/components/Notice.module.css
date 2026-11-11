@@ -1,0 +1,15 @@
+.notice {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-md);
+}
+
+.info {
+  color: var(--color-text-muted);
+  background: var(--color-surface-muted);
+}
+
+.error {
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}

@@ -4,9 +4,9 @@
 
 ## Hito actual
 
-**H1 (dominio + repositorio en memoria + seeds): terminado, PR abierto** desde `feat/h1-dominio` hacia `feat/h0-andamiaje`. Sigue Graphify y después H2.
+**H2 (UI núcleo): terminado, PR abierto** desde `feat/h2-ui-nucleo` hacia `feat/h1-dominio`. Sigue H4 (H3 espera al backend).
 
-PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; H1 → `feat/h0-andamiaje`.
+PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`.
 
 ## ⚠️ Antes de mergear: definir la rama principal
 
@@ -26,16 +26,21 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
   - `src/data/`: interfaz `Repository`, `MemoryRepository` y seed de §9.
   - `npm run test`: 38 tests pasan. Los cinco casos de §9 están en `src/domain/seedCases.test.ts`. `lint`, `typecheck` y `build` pasan.
 
+- **H2** (2026-11-11):
+  - Pantallas: inicio (últimas visitas), lugares, ficha de lugar (promedio, evolución por ítem, visitas, fotos y carta), ficha de ítem, y registrar visita con varios ítems, lugar nuevo y foto.
+  - `npm run e2e -- --project=chromium-mobile`: 9 pruebas pasan. `npm run test`: 41 tests. `lint`, `typecheck`, `build` pasan.
+- **CI del PR #1 (H0):** los dos jobs en verde, incluido e2e en Chromium y WebKit.
+
 ## Sin verificar
 
-- **WebKit:** en la nube no hay WebKit. El proyecto `webkit-mobile` solo corre en CI; revisar el job "E2E" del PR de H0. No está verificado localmente.
+- **WebKit en H2:** en la nube no hay WebKit. Solo lo verifica el job "E2E" de CI de cada PR; mirar el del PR de H2.
+- **Fotos en iPhone real:** la cámara desde la app instalada no se probó. Checklist en `docs/context/pruebas-y-verificacion.md`.
 - **iPhone real:** instalación en pantalla de inicio, safe areas e ícono. Checklist en `docs/context/pruebas-y-verificacion.md`.
 
 ## Sigue
 
-1. Graphify (evaluar; CONSULTAR si toca configuración global).
-2. **H2:** UI núcleo (rama `feat/h2-ui-nucleo`, sale de `feat/h1-dominio`).
-3. H4 y H5 sobre `data/memory`. **H3 espera** el aviso del usuario de que el backend está listo (la sesión de Supabase deja URL y clave anon en el repo y lo indica en `docs/SETUP_SUPABASE.md`).
+1. **H4:** mapa, quiero ir, los de siempre, búsqueda e ítems similares (rama `feat/h4-mapa`, sale de `feat/h2-ui-nucleo`).
+2. H5 sobre `data/memory`. **H3 espera** el aviso del usuario de que el backend está listo (la sesión de Supabase deja URL y clave anon en el repo y lo indica en `docs/SETUP_SUPABASE.md`).
 
 ## Decisiones tomadas
 
@@ -44,9 +49,11 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - Mapa: Leaflet + OpenStreetMap; Google Maps solo como link.
 - Un puntaje por ítem de cada visita, escala 1–10 en pasos de media estrella, mostrada 1–5.
 - Supabase lo configura una sesión aparte, en la compu del usuario. Esta sesión corre en la nube y no comparte archivos con ella: no depende de `.env.local`.
-- Graphify: se evalúa después de H1, con verificación del hook y plan B.
+- Graphify: no se instaló desde la nube; queda como decisión del usuario. Motivos en `docs/context/graphify.md`.
 - H0: TypeScript 6.0 (no 7) porque `typescript-eslint` todavía no soporta 7. `@playwright/test` fijado en 1.63.0 para coincidir con el Chromium preinstalado. Detalle en `docs/context/andamiaje-y-tooling.md`.
 - H0: el workflow de deploy a Pages se deja para H6; en H0 solo CI.
+- H2: falta editar y borrar visitas, ítems y lugares desde la interfaz (el repositorio ya lo soporta). Se suma en H4 junto con la edición de lugares.
+- H2: la app en memoria arranca con el seed y pierde los cambios al recargar.
 - H1: el seed usa fechas, precios y comentarios inventados (el brief los declara ilustrativos) y deja los lugares sin coordenadas hasta H4.
 - H1: se agregó `createdAt` a visitas, degustaciones y fotos para ordenar de forma estable. No cambia el modelo de §3.
 - H1: "los de siempre" sugeridos = 3 visitas o más (`SUGGESTED_REGULAR_MIN_VISITS` en `src/domain/places.ts`).
@@ -56,6 +63,7 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 ## Pendientes de confirmar por el usuario
 
 - Rama principal (ver arriba).
+- Graphify: ¿instalarlo en su compu? Ver `docs/context/graphify.md`.
 - Nombre y dirección de los lugares de ejemplo: *Perdú* (¿la sucursal de Rondeau?), *Albuche*, *La Cabaña de Chamigo* (calle Belgrano, número a completar).
 
 ## Pedidos a la sesión de Supabase

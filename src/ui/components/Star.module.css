@@ -1,0 +1,18 @@
+.star {
+  position: relative;
+  display: inline-block;
+  flex: none;
+}
+
+.star svg {
+  position: absolute;
+  inset: 0;
+}
+
+.empty {
+  fill: var(--color-border);
+}
+
+.filled {
+  fill: var(--color-rating);
+}
