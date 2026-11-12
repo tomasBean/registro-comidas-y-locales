@@ -6,7 +6,7 @@ Qué se prueba dónde y qué queda para probar a mano. Actualizado: 2026-11-11 (
 - **E2E (Playwright):** `e2e/`, proyectos `chromium-mobile` (Pixel 7) y `webkit-mobile` (iPhone 14).
 - `e2e/visit-flow.spec.ts` cubre el flujo de H2 sobre `data/memory`. Los datos se reinician al recargar, así que cada prueba arranca igual.
 - `e2e/map-and-lists.spec.ts` cubre H4. Simula las teselas y Nominatim (`mockMapServices`) para no pegarle a los servidores públicos.
-- `e2e/smoke.spec.ts` incluye que la app abra sin red (service worker).
+- `e2e/offline.spec.ts` prueba que la app abra sin red. Es el único archivo que habilita el service worker; el resto corre con él bloqueado.
 - **En la nube solo hay Chromium.** Ahí se corre `npm run e2e -- --project=chromium-mobile`. WebKit se verifica únicamente en CI (GitHub Actions). No declarar WebKit verificado sin mirar el job de CI.
 - **WebKit de Playwright no es Safari de iOS:** no cubre instalación en pantalla de inicio, cámara ni safe areas reales. Eso va al checklist manual del README.
 

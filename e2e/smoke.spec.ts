@@ -35,19 +35,3 @@ test('the PWA manifest and icons are served', async ({ page, request }) => {
   const touchIcon = await page.locator('link[rel="apple-touch-icon"]').getAttribute('href');
   expect((await request.get(new URL(touchIcon!, page.url()).toString())).ok()).toBe(true);
 });
-
-test('the installed shell opens without network', async ({ page, context }) => {
-  await page.goto('./');
-  // Wait until the service worker has cached the shell and controls the page.
-  await page.evaluate(async () => {
-    await navigator.serviceWorker.ready;
-    if (!navigator.serviceWorker.controller) {
-      await new Promise((resolve) => navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true }));
-    }
-  });
-
-  await context.setOffline(true);
-  await page.reload();
-  await expect(page.getByRole('heading', { level: 1, name: 'Libreta de comidas' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Últimas visitas' })).toBeVisible();
-});
