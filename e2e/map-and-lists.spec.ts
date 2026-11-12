@@ -147,7 +147,10 @@ test('sets a place location by address search, by tapping the map and by "Estoy 
   await expect(page.getByText('Sin ubicación: el lugar aparece en las listas')).toBeVisible();
   await page.getByLabel('Buscar dirección').fill('Belgrano 123');
   await page.getByRole('button', { name: 'Buscar', exact: true }).click();
-  await page.getByRole('button', { name: 'Belgrano 123, Centro, Córdoba, Argentina' }).click();
+  // Asserting on the whole list first makes a failure show what actually came back.
+  const results = page.getByRole('list', { name: 'Resultados de la búsqueda' }).getByRole('button');
+  await expect(results).toHaveText(['Belgrano 123, Centro, Córdoba, Argentina']);
+  await results.first().click();
   await expect(pin).toBeVisible();
 
   // Tap the map to move it, then use the device position.
