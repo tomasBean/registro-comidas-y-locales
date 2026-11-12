@@ -13,8 +13,17 @@ test('the installed shell opens without network', async ({ page, context }) => {
     }
   });
 
-  await context.setOffline(true);
+  // Cut the network by failing every request that reaches it. `context.setOffline` is not
+  // used because WebKit then fails the navigation before the service worker can answer.
+  let reachedNetwork = 0;
+  await context.route('**/*', (route) => {
+    reachedNetwork += 1;
+    return route.abort('internetdisconnected');
+  });
   await page.reload();
   await expect(page.getByRole('heading', { level: 1, name: 'Libreta de comidas' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Últimas visitas' })).toBeVisible();
+  // The shell came from the cache: the document itself never asked the network.
+  expect(await page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  test.info().annotations.push({ type: 'requests that reached the network', description: String(reachedNetwork) });
 });
