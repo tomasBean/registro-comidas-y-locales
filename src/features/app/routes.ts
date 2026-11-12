@@ -5,6 +5,7 @@ export const routes = {
   newPlace: (status?: 'wishlist') => (status ? `/places/new?estado=${status}` : '/places/new'),
   editPlace: (placeId: string) => `/places/${placeId}/edit`,
   map: () => '/map',
+  stats: () => '/stats',
   place: (placeId: string) => `/places/${placeId}`,
   item: (itemId: string) => `/items/${itemId}`,
   newVisit: (placeId?: string) => (placeId ? `/visits/new?place=${encodeURIComponent(placeId)}` : '/visits/new'),

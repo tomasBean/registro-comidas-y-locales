@@ -1,0 +1,91 @@
+.muted,
+.sub {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.sub {
+  display: block;
+  font-weight: var(--font-weight-regular);
+}
+
+.ranking {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  min-height: var(--touch-target);
+  padding-block: var(--space-2);
+}
+
+.row + .row,
+.spending + .spending {
+  border-top: 1px solid var(--color-border);
+}
+
+.position {
+  flex: none;
+  width: 1.5ch;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-bold);
+  text-align: right;
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+
+.value {
+  flex: none;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.spending {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+}
+
+.spendingTop {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.month::first-letter {
+  text-transform: uppercase;
+}
+
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-bold);
+}
+
+.bar {
+  height: 8px;
+  overflow: hidden;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-full);
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: var(--radius-full);
+}

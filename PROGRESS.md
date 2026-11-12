@@ -4,9 +4,9 @@
 
 ## Hito actual
 
-**H4 (mapa, quiero ir, los de siempre, búsqueda): terminado, PR abierto** desde `feat/h4-mapa` hacia `feat/h2-ui-nucleo`. Sigue H5. H3 espera al backend.
+**H5 (estadísticas y ranking propio): terminado, PR abierto** desde `feat/h5-estadisticas` hacia `feat/h4-mapa`. Sigue H6. H3 espera al backend.
 
-PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`; #4 H4 → `feat/h2-ui-nucleo`.
+PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`; #4 H4 → `feat/h2-ui-nucleo`; #5 H5 → `feat/h4-mapa`.
 
 ## ⚠️ Antes de mergear: definir la rama principal
 
@@ -32,7 +32,10 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - **H4** (2026-11-11):
   - Mapa con pines por tipo y filtros (tipo, categoría de ítem, puntaje mínimo); alta y edición de lugar con ubicación por "Estoy acá", búsqueda de dirección o tocando el mapa; "Abrir en Google Maps"; vistas "De siempre" y "Quiero ir"; búsqueda de lugares e ítems; ítems similares; borrar visita y lugar.
   - `npm run e2e -- --project=chromium-mobile`: 16 pruebas pasan. `npm run test`: 57 tests. `lint`, `typecheck`, `build` pasan.
-- **CI de los PR #1 (H0) y #2 (H1):** los dos jobs en verde, incluido e2e en Chromium y WebKit.
+- **H5** (2026-11-12):
+  - Pantalla "Resumen": más visitados (este mes / histórico), ranking de lugares por promedio, mejores ítems por categoría y gasto por mes. Cálculo en `src/domain/` (`places.ts`, `items.ts`, `stats.ts`).
+  - `npm run test`: 66 tests (uno o más por ranking en `src/domain/stats.test.ts`). `npm run e2e -- --project=chromium-mobile`: 21 pruebas. `lint`, `typecheck`, `build` pasan.
+- **CI de los PR #1 (H0), #2 (H1) y #3 (H2):** los dos jobs en verde, incluido e2e en Chromium y WebKit.
 
 ## Sin verificar
 
@@ -43,7 +46,7 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 
 ## Sigue
 
-1. **H5:** estadísticas y ranking propio (rama `feat/h5-estadisticas`, sale de `feat/h4-mapa`).
+1. **H6:** despliegue y pulido PWA/iOS (rama `feat/h6-despliegue`, sale de `feat/h5-estadisticas`).
 2. H6: despliegue y pulido. **H3 espera** el aviso del usuario de que el backend está listo (la sesión de Supabase deja URL y clave anon en el repo y lo indica en `docs/SETUP_SUPABASE.md`).
 
 ## Decisiones tomadas
@@ -56,6 +59,8 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - Graphify: no se instaló desde la nube; queda como decisión del usuario. Motivos en `docs/context/graphify.md`.
 - H0: TypeScript 6.0 (no 7) porque `typescript-eslint` todavía no soporta 7. `@playwright/test` fijado en 1.63.0 para coincidir con el Chromium preinstalado. Detalle en `docs/context/andamiaje-y-tooling.md`.
 - H0: el workflow de deploy a Pages se deja para H6; en H0 solo CI.
+- H5: el gasto por mes suma solo los ítems con precio y avisa cuántos no lo tienen. Se agregaron precios inventados al seed para que haya datos.
+- H5: "este mes" es el mes calendario del dispositivo.
 - H4: las coordenadas del seed son aproximadas (puestas a ojo), no relevadas.
 - H4: se puede editar y borrar un lugar y borrar una visita. **Falta editar** una visita o una degustación ya cargada (el repositorio lo soporta; no hay pantalla). Hoy se corrige borrando la visita y cargándola de nuevo.
 - H4: "de siempre" y "quiero ir" son vistas de la pantalla Lugares, no pestañas propias.
