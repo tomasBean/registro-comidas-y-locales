@@ -6,18 +6,15 @@ La app queda en `https://tomasbean.github.io/registro-comidas-y-locales/`.
 
 ## Estado
 
-- Workflow de deploy escrito: `.github/workflows/deploy.yml`. Corre al mergear a `main` o a mano. **Nunca corrió todavía**: no existe `main` y Pages no está activado.
+- Workflow de deploy escrito: `.github/workflows/deploy.yml`. Corre al mergear a `main` o a mano. **Nunca corrió todavía**: entra a `main` con el PR #6 y Pages no está activado.
 - Workflow de CI: `.github/workflows/ci.yml`, en cada PR.
 - Hoy la app usa datos de ejemplo en memoria. Hasta que se integre Supabase (hito H3), lo publicado es una demo: los cambios se pierden al recargar.
 
-## 0. Antes de todo: definir la rama principal
+## 0. Mergear la pila de PR
 
-La rama `main` no existe. Los PR están apilados sobre `ccr-05e3a17d-dyke5o`. Opciones:
+`main` ya existe y el PR #1 está mergeado. Quedan los PR #2 a #6, apilados: cada uno apunta a la rama del anterior.
 
-- **A.** Crear `main` desde `ccr-05e3a17d-dyke5o`, marcarla como rama por defecto y cambiar la base del PR #1 a `main`.
-- **B.** Renombrar `ccr-05e3a17d-dyke5o` a `main` (Settings → Branches). GitHub actualiza la base del PR #1 solo.
-
-Después, mergear los PR **en orden** (#1, #2, #3, …) con *merge commit*, no squash. Al mergear uno, GitHub cambia la base del siguiente.
+Mergearlos **en orden** con *merge commit*, no squash. Después de mergear uno, revisar que la base del siguiente sea `main`; si no cambió sola, editarla desde el PR.
 
 ## 1. Revisión de secretos (antes de hacer público el repo)
 

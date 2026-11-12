@@ -6,11 +6,9 @@
 
 **H6 (despliegue y pulido PWA/iOS): terminado en lo que no depende del usuario, PR abierto** desde `feat/h6-despliegue` hacia `feat/h5-estadisticas`. **Queda H3** (integración con Supabase), que espera el aviso de que el backend está listo.
 
-PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`; #4 H4 → `feat/h2-ui-nucleo`; #5 H5 → `feat/h4-mapa`; #6 H6 → `feat/h5-estadisticas`.
+**Rama principal:** `main` existe desde el 2026-11-12. El PR #1 (H0) ya está mergeado ahí.
 
-## ⚠️ Antes de mergear: definir la rama principal
-
-La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `ccr-05e3a17d-dyke5o` y cada hito siguiente apunta a la rama del hito anterior. El usuario tiene que definir la rama principal (crear `main` o renombrar la base) antes de mergear. El workflow de deploy (H6) y el de CI en `push` asumen `main`.
+PRs abiertos (pila): #2 H1 → `main`; #3 H2 → `feat/h1-dominio`; #4 H4 → `feat/h2-ui-nucleo`; #5 H5 → `feat/h4-mapa`; #6 H6 → `feat/h5-estadisticas`. Mergear en orden con *merge commit*; al mergear uno, cambiar la base del siguiente a `main` si GitHub no lo hace solo.
 
 ## Hecho y verificado
 
@@ -44,7 +42,7 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 ## Sin verificar
 
 - **WebKit local:** en la nube no hay WebKit; lo verifica solo el job "E2E" de CI. WebKit de Playwright no es Safari de iOS: falta el checklist de iPhone del README.
-- **Deploy:** el workflow de Pages nunca corrió (no existe `main` ni está activado Pages).
+- **Deploy:** el workflow de Pages nunca corrió. Entra a `main` recién con el PR #6 y Pages no está activado.
 - **Escaneo de secretos incompleto:** no se usó `gitleaks` y no se revisó la rama `infra/supabase` (no estaba en el remoto). Repetir según `docs/DEPLOY.md` antes de hacer público el repo.
 - **OpenStreetMap real:** la nube bloquea las teselas y Nominatim; las pruebas los simulan. Falta ver el mapa y una búsqueda de dirección reales. Detalle en `docs/context/mapa-y-ubicacion.md`.
 - **Fotos en iPhone real:** la cámara desde la app instalada no se probó. Checklist en `docs/context/pruebas-y-verificacion.md`.
@@ -52,7 +50,7 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 
 ## Sigue
 
-1. **Usuario:** definir la rama principal y mergear la pila en orden (ver `docs/DEPLOY.md`, paso 0).
+1. **Usuario:** seguir mergeando la pila en orden (#2 a #6).
 2. **H3:** integración con Supabase, cuando el usuario avise que el backend está listo (`docs/SETUP_SUPABASE.md` con "LISTO PARA H3"). Implica `src/data/supabase/`, login con las dos cuentas, URLs firmadas para fotos, y correr los mismos e2e contra Supabase más la prueba de RLS con un usuario ajeno.
 3. **Usuario:** pasos de `docs/DEPLOY.md` (revisión de secretos, visibilidad, Pages, variables) y checklist de iPhone del README.
 4. Pendiente menor: pantalla para editar una visita ya cargada.
@@ -84,7 +82,6 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 
 ## Pendientes de confirmar por el usuario
 
-- Rama principal (ver arriba).
 - Graphify: ¿instalarlo en su compu? Ver `docs/context/graphify.md`.
 - Nombre y dirección de los lugares de ejemplo: *Perdú* (¿la sucursal de Rondeau?), *Albuche*, *La Cabaña de Chamigo* (calle Belgrano, número a completar).
 
