@@ -17,4 +17,6 @@ Desde la sesión en la nube no hay acceso a `tile.openstreetmap.org` ni a `nomin
 
 La respuesta simulada de Nominatim tiene que llevar `access-control-allow-origin`: sin esa cabecera WebKit la bloquea (Chromium no) y la prueba de búsqueda de dirección falla solo en CI.
 
+Las pruebas e2e corren con el service worker bloqueado (`serviceWorkers: 'block'` en `playwright.config.ts`), para que los servicios simulados se apliquen también en WebKit.
+
 Relacionado: [decisiones de UI](decisiones-de-ui.md), [pruebas y verificación](pruebas-y-verificacion.md).
