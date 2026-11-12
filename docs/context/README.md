@@ -10,5 +10,6 @@ Convenciones:
 ## Índice
 
 - [Andamiaje y tooling](andamiaje-y-tooling.md): stack, versiones fijadas, reglas de capas, CI.
+- [Modelo de datos y dominio](modelo-de-datos.md): entidades, dónde vive cada regla, repositorio en memoria, seed.
 - [Formatos y escala de puntaje](formatos-y-puntaje.md): dónde viven la escala, precios y fechas.
 - [Pruebas y verificación](pruebas-y-verificacion.md): qué se prueba dónde, límites de WebKit, checklist manual en iPhone.
