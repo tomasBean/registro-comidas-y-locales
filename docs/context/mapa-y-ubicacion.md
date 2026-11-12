@@ -15,4 +15,6 @@ Cómo funcionan el mapa, la geocodificación y el link a Google Maps. Actualizad
 
 Desde la sesión en la nube no hay acceso a `tile.openstreetmap.org` ni a `nominatim.openstreetmap.org`. Las pruebas e2e simulan ambos servicios. Falta ver las teselas reales y una búsqueda real de dirección desde un navegador con internet.
 
+La respuesta simulada de Nominatim tiene que llevar `access-control-allow-origin`: sin esa cabecera WebKit la bloquea (Chromium no) y la prueba de búsqueda de dirección falla solo en CI.
+
 Relacionado: [decisiones de UI](decisiones-de-ui.md), [pruebas y verificación](pruebas-y-verificacion.md).
