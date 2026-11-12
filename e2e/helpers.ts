@@ -47,6 +47,12 @@ export async function mockMapServices(
     route.fulfill({ status: 200, contentType: 'image/png', body: samplePng() }),
   );
   await page.route('https://nominatim.openstreetmap.org/**', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(geocodeResults) }),
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      // The real server allows any origin; without this header WebKit blocks the mocked response.
+      headers: { 'access-control-allow-origin': '*' },
+      body: JSON.stringify(geocodeResults),
+    }),
   );
 }
