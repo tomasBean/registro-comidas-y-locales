@@ -11,5 +11,6 @@ Qué herramientas usa el repo y por qué quedaron así. Actualizado: 2026-11-11 
 - **Base de Vite:** `/registro-comidas-y-locales/`. Los e2e corren contra `vite preview` del build real.
 - **Íconos:** se generan con `npm run icons` (`scripts/generate-icons.mjs`, usa Chromium) y los PNG se commitean. Son provisorios hasta definir identidad.
 - **CI** (`.github/workflows/ci.yml`): corre en todo PR. Un job de lint/typecheck/test/build y otro de e2e en Chromium y WebKit móviles. WebKit solo se prueba ahí; ver [pruebas y verificación](pruebas-y-verificacion.md).
+- **Deploy** (`.github/workflows/deploy.yml`): al mergear a `main`, build y publicación en Pages con `actions/deploy-pages`. Recibe `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` como variables del repo. No corrió nunca todavía.
 
 Relacionado: [formatos y escala de puntaje](formatos-y-puntaje.md).
