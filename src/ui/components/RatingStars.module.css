@@ -1,0 +1,26 @@
+.rating {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  white-space: nowrap;
+}
+
+.stars {
+  display: inline-flex;
+  gap: 1px;
+}
+
+.value {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-medium);
+}
+
+.emphasis .value {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.none {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

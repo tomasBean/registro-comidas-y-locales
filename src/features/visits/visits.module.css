@@ -1,0 +1,63 @@
+.cardHeader {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.placeLink {
+  min-width: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+.date {
+  flex: none;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.dateStrong {
+  font-weight: var(--font-weight-bold);
+}
+
+.note {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.line + .line {
+  border-top: 1px solid var(--color-border);
+}
+
+.lineLink {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--touch-target);
+  color: inherit;
+  text-decoration: none;
+}
+
+.lineName {
+  min-width: 0;
+}
+
+.lineMeta {
+  margin: calc(var(--space-1) * -1) 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

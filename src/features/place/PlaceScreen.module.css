@@ -1,0 +1,100 @@
+.muted {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.summaryTop {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kind {
+  font-weight: var(--font-weight-medium);
+}
+
+.kind::first-letter {
+  text-transform: uppercase;
+}
+
+.summaryStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.notes {
+  margin-top: var(--space-3);
+  white-space: pre-wrap;
+}
+
+.itemTop {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.itemHeading {
+  min-width: 0;
+}
+
+.itemName {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.itemBottom {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.trend {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  text-align: right;
+}
+
+.up {
+  color: var(--color-success);
+}
+
+.down {
+  color: var(--color-danger);
+}
+
+.same {
+  color: var(--color-text-muted);
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.photoCell {
+  position: relative;
+}
+
+.photoTag {
+  position: absolute;
+  bottom: var(--space-1);
+  left: var(--space-1);
+}
+
+.photoActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
