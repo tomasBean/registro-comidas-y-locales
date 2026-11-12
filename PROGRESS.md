@@ -39,11 +39,11 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
   - `docs/DEPLOY.md` con los pasos del usuario; workflow `.github/workflows/deploy.yml`; README con instalación en iPhone y Android y checklist de pruebas en iPhone real.
   - Prueba e2e de que la app abre sin red (service worker): pasa en Chromium. Total e2e: 22.
   - Escaneo de secretos: solo las plantillas `.env` están versionadas y una búsqueda por patrones en el historial de las ramas de la app no encontró nada.
-- **CI de los PR #1 (H0), #2 (H1) y #3 (H2):** los dos jobs en verde, incluido e2e en Chromium y WebKit.
+- **CI de los seis PR (#1 a #6):** los dos jobs en verde en cada uno, incluido e2e en Chromium y WebKit móviles (2026-11-12). Con eso queda cumplido el criterio de salida de H2 (Chromium y WebKit).
 
 ## Sin verificar
 
-- **WebKit en H2:** en la nube no hay WebKit. Solo lo verifica el job "E2E" de CI de cada PR; mirar el del PR de H2.
+- **WebKit local:** en la nube no hay WebKit; lo verifica solo el job "E2E" de CI. WebKit de Playwright no es Safari de iOS: falta el checklist de iPhone del README.
 - **Deploy:** el workflow de Pages nunca corrió (no existe `main` ni está activado Pages).
 - **Escaneo de secretos incompleto:** no se usó `gitleaks` y no se revisó la rama `infra/supabase` (no estaba en el remoto). Repetir según `docs/DEPLOY.md` antes de hacer público el repo.
 - **OpenStreetMap real:** la nube bloquea las teselas y Nominatim; las pruebas los simulan. Falta ver el mapa y una búsqueda de dirección reales. Detalle en `docs/context/mapa-y-ubicacion.md`.
@@ -67,6 +67,7 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - Graphify: no se instaló desde la nube; queda como decisión del usuario. Motivos en `docs/context/graphify.md`.
 - H0: TypeScript 6.0 (no 7) porque `typescript-eslint` todavía no soporta 7. `@playwright/test` fijado en 1.63.0 para coincidir con el Chromium preinstalado. Detalle en `docs/context/andamiaje-y-tooling.md`.
 - H0: el workflow de deploy a Pages se deja para H6; en H0 solo CI.
+- H6: las pruebas e2e corren con el service worker bloqueado, porque con él activo WebKit no aplicaba los servicios simulados (falló la búsqueda de dirección en CI). La prueba de "abre sin red" es la única que lo habilita y hace un corte real apagando su propio servidor, porque los modos sin conexión simulados de Playwright no sirven en WebKit.
 - H6: el login (funcionalidad 10 del brief) se hace en H3, porque depende de Supabase Auth.
 - H6: el workflow de deploy también corre lint, typecheck y tests antes de publicar.
 - H5: el gasto por mes suma solo los ítems con precio y avisa cuántos no lo tienen. Se agregaron precios inventados al seed para que haya datos.
