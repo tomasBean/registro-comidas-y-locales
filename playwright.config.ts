@@ -11,7 +11,13 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
-  use: { baseURL, trace: 'off' },
+  use: {
+    baseURL,
+    trace: 'off',
+    // With the service worker in control, WebKit sends page requests around `page.route`,
+    // so network mocks stop applying. Tests that need the worker opt back in.
+    serviceWorkers: 'block',
+  },
   projects: [
     { name: 'chromium-mobile', use: { ...devices['Pixel 7'] } },
     { name: 'webkit-mobile', use: { ...devices['iPhone 14'] } },

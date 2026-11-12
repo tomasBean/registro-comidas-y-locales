@@ -1,10 +1,10 @@
 import { Link, useParams } from 'react-router-dom';
 import { formatDate, formatPrice } from '../../config/locale';
-import { itemEvolution } from '../../domain/items';
+import { itemEvolution, similarItems } from '../../domain/items';
 import type { TastingPoint } from '../../domain/items';
 import type { Dataset, NotebookMember } from '../../domain/types';
 import { unitPrice } from '../../domain/visits';
-import { Card, Section, Stack } from '../../ui/components/Card';
+import { Card, cardLinkClassName, Section, Stack } from '../../ui/components/Card';
 import { Tag } from '../../ui/components/Chip';
 import { RatingStars } from '../../ui/components/RatingStars';
 import { Sparkline } from '../../ui/components/Sparkline';
@@ -67,6 +67,7 @@ function ItemContent({ dataset, itemId }: { dataset: Dataset; itemId: string }) 
   }
   const evolution = itemEvolution(dataset, item);
   const newestFirst = [...evolution.points].reverse();
+  const similar = similarItems(dataset, item);
 
   return (
     <>
@@ -121,6 +122,23 @@ function ItemContent({ dataset, itemId }: { dataset: Dataset; itemId: string }) 
           ))}
         </Stack>
       </Section>
+
+      {similar.length > 0 ? (
+        <Section title={`Otros de la categoría «${item.category}»`}>
+          <Stack>
+            {similar.map((entry) => (
+              <Link key={entry.item.id} to={routes.item(entry.item.id)} className={cardLinkClassName}>
+                <div className={styles.tastingHeader}>
+                  <span>
+                    <strong>{entry.item.name}</strong> en {entry.place.name}
+                  </span>
+                  <RatingStars value={entry.average} size={16} />
+                </div>
+              </Link>
+            ))}
+          </Stack>
+        </Section>
+      ) : null}
     </>
   );
 }

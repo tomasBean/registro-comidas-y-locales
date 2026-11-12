@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { todayIsoDate } from '../../config/locale';
 import type { ValidVisitDraft } from '../../data/repository';
+import type { Coordinates } from '../../domain/maps';
 import { cleanText } from '../../domain/text';
 import type { Id } from '../../domain/types';
 import { emptyTastingDraft, validateVisitDraft } from '../../domain/visits';
@@ -22,7 +23,7 @@ export interface TastingEntry extends TastingDraft {
 export type PlaceChoice =
   | { kind: 'none' }
   | { kind: 'existing'; placeId: Id }
-  | { kind: 'new'; name: string; type: string; address: string };
+  | { kind: 'new'; name: string; type: string; address: string; location: Coordinates | null };
 
 export interface VisitFormState {
   place: PlaceChoice;
@@ -138,8 +139,8 @@ export function useVisitForm(initialPlaceId: Id | null, onSaved: (placeId: Id) =
           name: place.name,
           type: place.type,
           address: place.address,
-          lat: null,
-          lng: null,
+          lat: place.location?.lat ?? null,
+          lng: place.location?.lng ?? null,
           status: 'visited',
           notes: '',
         });

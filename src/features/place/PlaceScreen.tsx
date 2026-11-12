@@ -3,13 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 import { formatDate } from '../../config/locale';
 import { formatRating } from '../../config/rating';
 import { placeItemEvolutions } from '../../domain/items';
+import { googleMapsUrl, hasLocation } from '../../domain/maps';
 import type { ItemEvolution } from '../../domain/items';
 import { summarizePlace } from '../../domain/places';
 import type { Dataset, PlacePhotoKind } from '../../domain/types';
 import { placeVisitDetails } from '../../domain/visits';
-import { buttonClassName } from '../../ui/components/Button';
+import { Button, buttonClassName } from '../../ui/components/Button';
 import { Card, cardLinkClassName, Section, Stack } from '../../ui/components/Card';
 import { Tag } from '../../ui/components/Chip';
+import { ConfirmButton } from '../../ui/components/ConfirmButton';
 import { Notice } from '../../ui/components/Notice';
 import { PhotoInput } from '../../ui/components/PhotoInput';
 import { RatingStars } from '../../ui/components/RatingStars';
@@ -21,6 +23,7 @@ import { errorMessage } from '../app/errors';
 import { LoadGate } from '../app/LoadGate';
 import { routes } from '../app/routes';
 import { useBack } from '../app/useBack';
+import { LocateButton } from '../location/LocateButton';
 import { compressImage } from '../photos/compressImage';
 import { Photo } from '../photos/Photo';
 import { VisitCard } from '../visits/VisitCard';
@@ -115,6 +118,8 @@ function PlacePhotos({ dataset, placeId, placeName }: { dataset: Dataset; placeI
 }
 
 function PlaceContent({ dataset, placeId }: { dataset: Dataset; placeId: string }) {
+  const { repository, refresh } = useData();
+  const [actionError, setActionError] = useState<string | null>(null);
   const summary = summarizePlace(dataset, placeId);
   if (!summary) {
     return <EmptyState title="No encontramos ese lugar" description="Puede que lo hayan borrado." />;
@@ -123,12 +128,23 @@ function PlaceContent({ dataset, placeId }: { dataset: Dataset; placeId: string 
   const evolutions = placeItemEvolutions(dataset, placeId);
   const visits = placeVisitDetails(dataset, placeId);
 
+  async function change(action: () => Promise<unknown>) {
+    setActionError(null);
+    try {
+      await action();
+      await refresh();
+    } catch (cause) {
+      setActionError(errorMessage(cause));
+    }
+  }
+
   return (
     <>
       <Card>
         <div className={styles.summaryTop}>
           <p className={styles.kind}>{place.type || 'Lugar'}</p>
           {place.status === 'wishlist' ? <Tag tone="accent">Quiero ir</Tag> : null}
+          {place.isRegular ? <Tag tone="accent">De siempre</Tag> : null}
         </div>
         {place.address ? <p className={styles.muted}>{place.address}</p> : null}
         {visitCount > 0 ? (
@@ -147,6 +163,33 @@ function PlaceContent({ dataset, placeId }: { dataset: Dataset; placeId: string 
         Registrar visita acá
       </Link>
 
+      <div className={styles.actions}>
+        <a href={googleMapsUrl(place)} target="_blank" rel="noreferrer" className={buttonClassName('secondary')}>
+          Abrir en Google Maps
+        </a>
+        <Link to={routes.editPlace(place.id)} className={buttonClassName('secondary')}>
+          Editar
+        </Link>
+        {place.status === 'visited' ? (
+          <Button
+            aria-pressed={place.isRegular}
+            onClick={() => void change(() => repository.updatePlace(place.id, { isRegular: !place.isRegular }))}
+          >
+            {place.isRegular ? 'Quitar de los de siempre' : 'Marcar como de siempre'}
+          </Button>
+        ) : null}
+        {!hasLocation(place) ? (
+          <LocateButton
+            label="Estoy acá: guardar ubicación"
+            onLocated={async (coordinates) => {
+              await repository.updatePlace(place.id, coordinates);
+              await refresh();
+            }}
+          />
+        ) : null}
+      </div>
+      {actionError ? <Notice tone="error">{actionError}</Notice> : null}
+
       {evolutions.length > 0 ? (
         <Section title="Lo que pedimos">
           <Stack>
@@ -161,7 +204,18 @@ function PlaceContent({ dataset, placeId }: { dataset: Dataset; placeId: string 
         {visits.length > 0 ? (
           <Stack>
             {visits.map((detail) => (
-              <VisitCard key={detail.visit.id} detail={detail} />
+              <VisitCard
+                key={detail.visit.id}
+                detail={detail}
+                footer={
+                  <ConfirmButton
+                    label="Borrar visita"
+                    question="Se borra la visita con todo lo que pidieron. No se puede deshacer."
+                    confirmLabel="Sí, borrar"
+                    onConfirm={() => void change(() => repository.deleteVisit(detail.visit.id))}
+                  />
+                }
+              />
             ))}
           </Stack>
         ) : (

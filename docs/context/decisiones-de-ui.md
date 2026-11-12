@@ -2,7 +2,9 @@
 
 Cómo está armada la interfaz y qué se decidió. Actualizado: 2026-11-11 (H2).
 
-- **Navegación:** barra inferior fija (`ui/layout/BottomNav`) con Inicio, Registrar (acción principal) y Lugares. Se arma en `src/App.tsx`. Mapa, quiero ir y estadísticas se suman en H4 y H5.
+- **Navegación:** barra inferior fija (`ui/layout/BottomNav`) con Inicio, Lugares, Registrar (acción principal) y Mapa. Se arma en `src/App.tsx`. Estadísticas se suma en H5.
+- **Lugares:** una sola pantalla con buscador y tres vistas (Todos, De siempre, Quiero ir) en el parámetro `?ver=`. Evita sumar pestañas a la barra.
+- **Borrados:** `ConfirmButton` pide confirmación en dos toques, sin diálogos del navegador.
 - **Rutas** (`features/app/routes.ts`): `/`, `/places`, `/places/:id`, `/items/:id`, `/visits/new?place=:id`. Nadie arma URLs a mano.
 - **Datos en pantalla:** `DataProvider` carga el `Dataset` una vez y lo comparte; después de escribir se llama `refresh()`. Las pantallas calculan con funciones de `domain/`. `LoadGate` resuelve cargando y error.
 - **Formulario de visita** (`features/visit-form/`): el estado vive en `useVisitForm`; los componentes solo dibujan. Las fotos se comprimen al elegirlas y se suben recién al guardar (un lugar nuevo todavía no tiene id). Si falla el guardado después de crear el lugar, el formulario queda apuntando al lugar ya creado para no duplicarlo.

@@ -34,3 +34,25 @@ export async function openPlace(page: Page, name: string): Promise<void> {
   await page.getByRole('link', { name: new RegExp(name) }).click();
   await expect(page.getByRole('heading', { level: 1, name })).toBeVisible();
 }
+
+/**
+ * Keeps tests off the public OpenStreetMap servers: tiles are answered with an
+ * empty image and address searches with `geocodeResults`.
+ */
+export async function mockMapServices(
+  page: Page,
+  geocodeResults: Array<{ lat: string; lon: string; display_name: string }> = [],
+): Promise<void> {
+  await page.route('https://tile.openstreetmap.org/**', (route) =>
+    route.fulfill({ status: 200, contentType: 'image/png', body: samplePng() }),
+  );
+  await page.route('https://nominatim.openstreetmap.org/**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      // The real server allows any origin; without this header WebKit blocks the mocked response.
+      headers: { 'access-control-allow-origin': '*' },
+      body: JSON.stringify(geocodeResults),
+    }),
+  );
+}

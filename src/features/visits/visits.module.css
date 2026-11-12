@@ -61,3 +61,7 @@
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 }
+
+.footer {
+  margin-top: var(--space-3);
+}

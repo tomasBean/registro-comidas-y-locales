@@ -20,3 +20,13 @@
 .meta::first-letter {
   text-transform: uppercase;
 }
+
+.notes {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-sm);
+  white-space: pre-wrap;
+}
+
+.tagLine {
+  margin-top: var(--space-2);
+}

@@ -1,11 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { Repository } from '../../data';
+import type { Geocoder, Repository } from '../../data';
 import type { Dataset, NotebookMember } from '../../domain/types';
 import { errorMessage } from './errors';
 
 interface DataContextValue {
   repository: Repository;
+  geocoder: Geocoder;
   /** Null until the first load finishes. */
   dataset: Dataset | null;
   members: NotebookMember[];
@@ -17,7 +18,15 @@ interface DataContextValue {
 const DataContext = createContext<DataContextValue | null>(null);
 
 /** Loads the notebook once and shares it with every screen. */
-export function DataProvider({ repository, children }: { repository: Repository; children: ReactNode }) {
+export function DataProvider({
+  repository,
+  geocoder,
+  children,
+}: {
+  repository: Repository;
+  geocoder: Geocoder;
+  children: ReactNode;
+}) {
   const [dataset, setDataset] = useState<Dataset | null>(null);
   const [members, setMembers] = useState<NotebookMember[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -38,8 +47,8 @@ export function DataProvider({ repository, children }: { repository: Repository;
   }, [refresh]);
 
   const value = useMemo(
-    () => ({ repository, dataset, members, loadError, refresh }),
-    [repository, dataset, members, loadError, refresh],
+    () => ({ repository, geocoder, dataset, members, loadError, refresh }),
+    [repository, geocoder, dataset, members, loadError, refresh],
   );
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }
