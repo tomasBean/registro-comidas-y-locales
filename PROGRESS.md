@@ -4,9 +4,9 @@
 
 ## Hito actual
 
-**H5 (estadísticas y ranking propio): terminado, PR abierto** desde `feat/h5-estadisticas` hacia `feat/h4-mapa`. Sigue H6. H3 espera al backend.
+**H6 (despliegue y pulido PWA/iOS): terminado en lo que no depende del usuario, PR abierto** desde `feat/h6-despliegue` hacia `feat/h5-estadisticas`. **Queda H3** (integración con Supabase), que espera el aviso de que el backend está listo.
 
-PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`; #4 H4 → `feat/h2-ui-nucleo`; #5 H5 → `feat/h4-mapa`.
+PRs abiertos (pila): #1 H0 → `ccr-05e3a17d-dyke5o`; #2 H1 → `feat/h0-andamiaje`; #3 H2 → `feat/h1-dominio`; #4 H4 → `feat/h2-ui-nucleo`; #5 H5 → `feat/h4-mapa`; #6 H6 → `feat/h5-estadisticas`.
 
 ## ⚠️ Antes de mergear: definir la rama principal
 
@@ -35,19 +35,27 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - **H5** (2026-11-12):
   - Pantalla "Resumen": más visitados (este mes / histórico), ranking de lugares por promedio, mejores ítems por categoría y gasto por mes. Cálculo en `src/domain/` (`places.ts`, `items.ts`, `stats.ts`).
   - `npm run test`: 66 tests (uno o más por ranking en `src/domain/stats.test.ts`). `npm run e2e -- --project=chromium-mobile`: 21 pruebas. `lint`, `typecheck`, `build` pasan.
+- **H6** (2026-11-12):
+  - `docs/DEPLOY.md` con los pasos del usuario; workflow `.github/workflows/deploy.yml`; README con instalación en iPhone y Android y checklist de pruebas en iPhone real.
+  - Prueba e2e de que la app abre sin red (service worker): pasa en Chromium. Total e2e: 22.
+  - Escaneo de secretos: solo las plantillas `.env` están versionadas y una búsqueda por patrones en el historial de las ramas de la app no encontró nada.
 - **CI de los PR #1 (H0), #2 (H1) y #3 (H2):** los dos jobs en verde, incluido e2e en Chromium y WebKit.
 
 ## Sin verificar
 
 - **WebKit en H2:** en la nube no hay WebKit. Solo lo verifica el job "E2E" de CI de cada PR; mirar el del PR de H2.
+- **Deploy:** el workflow de Pages nunca corrió (no existe `main` ni está activado Pages).
+- **Escaneo de secretos incompleto:** no se usó `gitleaks` y no se revisó la rama `infra/supabase` (no estaba en el remoto). Repetir según `docs/DEPLOY.md` antes de hacer público el repo.
 - **OpenStreetMap real:** la nube bloquea las teselas y Nominatim; las pruebas los simulan. Falta ver el mapa y una búsqueda de dirección reales. Detalle en `docs/context/mapa-y-ubicacion.md`.
 - **Fotos en iPhone real:** la cámara desde la app instalada no se probó. Checklist en `docs/context/pruebas-y-verificacion.md`.
 - **iPhone real:** instalación en pantalla de inicio, safe areas e ícono. Checklist en `docs/context/pruebas-y-verificacion.md`.
 
 ## Sigue
 
-1. **H6:** despliegue y pulido PWA/iOS (rama `feat/h6-despliegue`, sale de `feat/h5-estadisticas`).
-2. H6: despliegue y pulido. **H3 espera** el aviso del usuario de que el backend está listo (la sesión de Supabase deja URL y clave anon en el repo y lo indica en `docs/SETUP_SUPABASE.md`).
+1. **Usuario:** definir la rama principal y mergear la pila en orden (ver `docs/DEPLOY.md`, paso 0).
+2. **H3:** integración con Supabase, cuando el usuario avise que el backend está listo (`docs/SETUP_SUPABASE.md` con "LISTO PARA H3"). Implica `src/data/supabase/`, login con las dos cuentas, URLs firmadas para fotos, y correr los mismos e2e contra Supabase más la prueba de RLS con un usuario ajeno.
+3. **Usuario:** pasos de `docs/DEPLOY.md` (revisión de secretos, visibilidad, Pages, variables) y checklist de iPhone del README.
+4. Pendiente menor: pantalla para editar una visita ya cargada.
 
 ## Decisiones tomadas
 
@@ -59,6 +67,8 @@ La rama `main` **no existe** en el remoto. Los PR están apilados: H0 apunta a `
 - Graphify: no se instaló desde la nube; queda como decisión del usuario. Motivos en `docs/context/graphify.md`.
 - H0: TypeScript 6.0 (no 7) porque `typescript-eslint` todavía no soporta 7. `@playwright/test` fijado en 1.63.0 para coincidir con el Chromium preinstalado. Detalle en `docs/context/andamiaje-y-tooling.md`.
 - H0: el workflow de deploy a Pages se deja para H6; en H0 solo CI.
+- H6: el login (funcionalidad 10 del brief) se hace en H3, porque depende de Supabase Auth.
+- H6: el workflow de deploy también corre lint, typecheck y tests antes de publicar.
 - H5: el gasto por mes suma solo los ítems con precio y avisa cuántos no lo tienen. Se agregaron precios inventados al seed para que haya datos.
 - H5: "este mes" es el mes calendario del dispositivo.
 - H4: las coordenadas del seed son aproximadas (puestas a ojo), no relevadas.

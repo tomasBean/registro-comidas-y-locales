@@ -6,19 +6,12 @@ Qué se prueba dónde y qué queda para probar a mano. Actualizado: 2026-11-11 (
 - **E2E (Playwright):** `e2e/`, proyectos `chromium-mobile` (Pixel 7) y `webkit-mobile` (iPhone 14).
 - `e2e/visit-flow.spec.ts` cubre el flujo de H2 sobre `data/memory`. Los datos se reinician al recargar, así que cada prueba arranca igual.
 - `e2e/map-and-lists.spec.ts` cubre H4. Simula las teselas y Nominatim (`mockMapServices`) para no pegarle a los servidores públicos.
+- `e2e/smoke.spec.ts` incluye que la app abra sin red (service worker).
 - **En la nube solo hay Chromium.** Ahí se corre `npm run e2e -- --project=chromium-mobile`. WebKit se verifica únicamente en CI (GitHub Actions). No declarar WebKit verificado sin mirar el job de CI.
-- **WebKit de Playwright no es Safari de iOS:** no cubre instalación en pantalla de inicio, cámara ni safe areas reales. Eso va al checklist manual en iPhone (README, hito H6).
+- **WebKit de Playwright no es Safari de iOS:** no cubre instalación en pantalla de inicio, cámara ni safe areas reales. Eso va al checklist manual del README.
 
-## Checklist manual en iPhone (se va completando por hito)
+## Checklist manual en iPhone
 
-- [ ] H0: la app abre en Safari, respeta el notch y la barra inferior, y se puede agregar a pantalla de inicio con su ícono.
-
-- [ ] H2: en el formulario de visita, "Agregar foto" ofrece cámara y galería; sacar una foto con la cámara desde la app instalada en pantalla de inicio y confirmar que queda la vista previa. Repetir desde la galería.
-- [ ] H2: las estrellas se pueden tocar con el pulgar y marcan medias; al enfocar un campo de texto Safari no hace zoom.
-- [ ] H2: el selector de fecha nativo muestra dd/mm/aaaa.
-- [ ] H4: el mapa carga las teselas de OpenStreetMap y se puede mover con un dedo sin trabar el scroll de la página.
-- [ ] H4: "Estoy acá" pide permiso de ubicación y deja el pin donde corresponde.
-- [ ] H4: buscar una dirección real de Córdoba devuelve resultados.
-- [ ] H4: "Abrir en Google Maps" abre la app o la web de Google Maps en el lugar correcto.
+Vive en el `README.md`, sección "Qué probar en un iPhone real". Al sumar una función que dependa del dispositivo, agregar ahí su punto.
 
 Relacionado: [andamiaje y tooling](andamiaje-y-tooling.md).
