@@ -30,3 +30,12 @@ export function todayIsoDate(now: Date = new Date()): string {
   const day = String(now.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
+const monthFormatter = new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+/** "2026-11" -> "noviembre de 2026". */
+export function formatMonth(month: string): string {
+  const match = /^(\d{4})-(\d{2})$/.exec(month);
+  if (!match) throw new Error(`Invalid month: ${month}`);
+  return monthFormatter.format(new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, 1)));
+}

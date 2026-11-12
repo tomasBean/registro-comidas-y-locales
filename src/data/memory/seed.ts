@@ -102,28 +102,28 @@ export function createSeedDataset(): Dataset {
     ],
     tastings: [
       // Perdú: three times a 4, then a 1.5.
-      tasting('tasting-perdu-1', 'visit-perdu-1', 'item-perdu-chipa', '2026-09-26', 8, { wouldReorder: true }),
-      tasting('tasting-perdu-2', 'visit-perdu-2', 'item-perdu-chipa', '2026-10-17', 8, { wouldReorder: true }),
-      tasting('tasting-perdu-3', 'visit-perdu-3', 'item-perdu-chipa', '2026-11-03', 8, { wouldReorder: true }),
+      tasting('tasting-perdu-1', 'visit-perdu-1', 'item-perdu-chipa', '2026-09-26', 8, { priceTotal: 2500, wouldReorder: true }),
+      tasting('tasting-perdu-2', 'visit-perdu-2', 'item-perdu-chipa', '2026-10-17', 8, { priceTotal: 2500, wouldReorder: true }),
+      tasting('tasting-perdu-3', 'visit-perdu-3', 'item-perdu-chipa', '2026-11-03', 8, { priceTotal: 2800, wouldReorder: true }),
       tasting('tasting-perdu-4', 'visit-perdu-4', 'item-perdu-chipa', '2026-11-10', 3, {
         comment: 'Estaba seco, como del día anterior.',
         wouldReorder: false,
       }),
       // Albuche: the triple at 4.5, 3 and 4; fries rated apart in the second visit.
-      tasting('tasting-albuche-1', 'visit-albuche-1', 'item-albuche-triple', '2026-09-19', 9, {
+      tasting('tasting-albuche-1', 'visit-albuche-1', 'item-albuche-triple', '2026-09-19', 9, { priceTotal: 12000,
         comment: 'Con cheddar, panceta y cebolla caramelizada.',
         wouldReorder: true,
       }),
-      tasting('tasting-albuche-2', 'visit-albuche-2', 'item-albuche-triple', '2026-10-10', 6, {
+      tasting('tasting-albuche-2', 'visit-albuche-2', 'item-albuche-triple', '2026-10-10', 6, { priceTotal: 12500,
         comment: 'Con cheddar, panceta y huevo. La carne, pasada.',
         wouldReorder: true,
       }),
-      tasting('tasting-albuche-2-papas', 'visit-albuche-2', 'item-albuche-papas', '2026-10-10', 8, {
+      tasting('tasting-albuche-2-papas', 'visit-albuche-2', 'item-albuche-papas', '2026-10-10', 8, { priceTotal: 4500,
         comment: 'Crocantes.',
         wouldReorder: true,
         createdAt: at('2026-10-10', '13:01:00'),
       }),
-      tasting('tasting-albuche-3', 'visit-albuche-3', 'item-albuche-triple', '2026-11-07', 8, {
+      tasting('tasting-albuche-3', 'visit-albuche-3', 'item-albuche-triple', '2026-11-07', 8, { priceTotal: 13000,
         comment: 'Con cheddar, panceta y cebolla crispy.',
         wouldReorder: true,
       }),

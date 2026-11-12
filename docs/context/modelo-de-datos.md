@@ -20,6 +20,8 @@ Cómo está implementado el modelo de `BRIEF.md` §3 y dónde vive cada regla. A
 | `items.ts` | `itemEvolution` (historial, último, anterior, cambio, promedio), `categoryRanking` (misma categoría entre lugares), `similarItems`, `suggestItems`, `findItemByName` |
 | `places.ts` | `summarizePlaces`, `mostVisitedPlaces` (con filtro de mes), `rankPlacesByAverage`, `regularPlaces` (manual + sugeridos con 3 visitas o más), `wishlistPlaces`, `placeAfterVisit` |
 | `visits.ts` | `visitDetail` (ítems de una misma visita), `validateVisitDraft`, `unitPrice`, `recentVisits` |
+| `stats.ts` | `spendingByMonth`: gasto por mes con cantidad de ítems sin precio |
+| `maps.ts`, `search.ts` | Filtros del mapa, link a Google Maps y búsqueda de texto (H4) |
 | `ratings.ts` | Promedio sobre el valor guardado |
 
 Los promedios se calculan sobre el valor guardado (1–10) y se convierten al mostrar ([formatos y escala](formatos-y-puntaje.md)).

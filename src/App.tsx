@@ -9,6 +9,7 @@ import { MapScreen } from './features/map/MapScreen';
 import { PlaceFormScreen } from './features/place-form/PlaceFormScreen';
 import { PlaceScreen } from './features/place/PlaceScreen';
 import { PlacesScreen } from './features/places/PlacesScreen';
+import { StatsScreen } from './features/stats/StatsScreen';
 import { VisitFormScreen } from './features/visit-form/VisitFormScreen';
 import { BottomNav } from './ui/layout/BottomNav';
 import type { BottomNavItem } from './ui/layout/BottomNav';
@@ -60,6 +61,7 @@ function MainNav() {
           'M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11zM12 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z',
           pathname.startsWith('/map'),
         ),
+        entry('stats', 'Resumen', routes.stats(), 'M5 20V10M12 20V4M19 20v-7', pathname.startsWith('/stats')),
       ]}
     />
   );
@@ -79,6 +81,7 @@ export function App() {
           <Route path="/places/:placeId" element={<PlaceScreen />} />
           <Route path="/places/:placeId/edit" element={<PlaceFormScreen />} />
           <Route path="/map" element={<MapScreen />} />
+          <Route path="/stats" element={<StatsScreen />} />
           <Route path="/items/:itemId" element={<ItemScreen />} />
           <Route path="/visits/new" element={<VisitFormScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />

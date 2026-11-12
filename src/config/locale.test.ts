@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatDate, formatPrice, todayIsoDate } from './locale';
+import { formatDate, formatMonth, formatPrice, todayIsoDate } from './locale';
 
 // Intl separates the currency symbol with a non-breaking space.
 const normalize = (text: string) => text.replaceAll(String.fromCharCode(0xa0), ' ');
@@ -18,5 +18,11 @@ describe('es-AR formats', () => {
 
   it('builds today as a local ISO date', () => {
     expect(todayIsoDate(new Date(2026, 0, 9, 23, 30))).toBe('2026-01-09');
+  });
+
+  it('formats months in words', () => {
+    expect(formatMonth('2026-11')).toBe('noviembre de 2026');
+    expect(formatMonth('2027-01')).toBe('enero de 2027');
+    expect(() => formatMonth('2026-11-11')).toThrow();
   });
 });

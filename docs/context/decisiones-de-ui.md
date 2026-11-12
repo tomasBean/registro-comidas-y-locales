@@ -2,7 +2,8 @@
 
 Cómo está armada la interfaz y qué se decidió. Actualizado: 2026-11-11 (H2).
 
-- **Navegación:** barra inferior fija (`ui/layout/BottomNav`) con Inicio, Lugares, Registrar (acción principal) y Mapa. Se arma en `src/App.tsx`. Estadísticas se suma en H5.
+- **Navegación:** barra inferior fija (`ui/layout/BottomNav`) con Inicio, Lugares, Registrar (acción principal), Mapa y Resumen. Se arma en `src/App.tsx`.
+- **Resumen** (`features/stats/`): cuatro bloques con sus propios selectores. Las pruebas e2e fijan la fecha con `page.clock` porque "este mes" depende del día.
 - **Lugares:** una sola pantalla con buscador y tres vistas (Todos, De siempre, Quiero ir) en el parámetro `?ver=`. Evita sumar pestañas a la barra.
 - **Borrados:** `ConfirmButton` pide confirmación en dos toques, sin diálogos del navegador.
 - **Rutas** (`features/app/routes.ts`): `/`, `/places`, `/places/:id`, `/items/:id`, `/visits/new?place=:id`. Nadie arma URLs a mano.
