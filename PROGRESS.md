@@ -41,12 +41,16 @@ PRs abiertos (pila): #2 H1 → `main`; #3 H2 → `feat/h1-dominio`; #4 H4 → `f
   - Pantalla `/visits/:id/edit` (botón "Editar visita" en la página del lugar): cambia fecha, nota y, por ítem, puntaje, precio, cantidad, comentario, "volverías a pedirlo" y foto. El lugar y los ítems pedidos quedan como se registraron (no se puede agregar ni quitar ítems; para eso, borrar y cargar de nuevo).
   - Reutiliza `TastingFields` con `lockItem` y la validación `validateVisitDraft`. 2 pruebas e2e nuevas (total 24 en Chromium), `lint`, `typecheck`, `build` y `test` pasan.
 - **CI de los seis PR (#1 a #6):** los dos jobs en verde en cada uno, incluido e2e en Chromium y WebKit móviles (2026-11-12). Con eso queda cumplido el criterio de salida de H2 (Chromium y WebKit).
+- **Verificación local** (2026-11-13, en la compu, rama `claude/determined-bardeen-jhgrmn`):
+  - Escaneo de secretos: `gitleaks detect --log-opts="--all" --redact -v` (v8.30.1, binario oficial con checksum verificado) sobre todas las ramas locales y remotas: 26 commits en el historial (16 con cambios; los 10 merges no tienen diff). Sin hallazgos. Mensajes de commit sin `service_role`, `password`, `sbp_` ni `eyJ`; `token` solo aparece en "design tokens".
+  - `lint`, `typecheck`, `build` pasan; `test`: 66 tests. e2e `chromium-mobile`: 24 pasan. e2e `webkit-mobile`: 24 pasan con `--workers=1`; con workers en paralelo fallaron 5 por tiempos en la compu (flaky local, no verificado si es de la app o de carga).
+  - A mano en `npm run dev` (viewport móvil): editar una visita de Albuche (fecha, puntaje, precio y nota) la deja actualizada y recalcula el promedio; en el ítem se puede agregar, cambiar y quitar la foto.
 
 ## Sin verificar
 
-- **WebKit local:** en la nube no hay WebKit; lo verifica solo el job "E2E" de CI. WebKit de Playwright no es Safari de iOS: falta el checklist de iPhone del README.
+- **WebKit local:** verificado en la compu el 2026-11-13 (ver "Verificación local"). WebKit de Playwright no es Safari de iOS: falta el checklist de iPhone del README.
 - **Deploy:** según el usuario (2026-11-13) la app ya está desplegada en Pages e instalada en su teléfono; no lo verifiqué desde la nube. Falta confirmar que el workflow terminó en verde.
-- **Escaneo de secretos incompleto:** el 2026-11-13 se repitió por patrones sobre los 25 commits de todas las ramas del remoto y no apareció nada (solo menciones del nombre `service_role` en docs). No se pudo correr `gitleaks` (el sistema bloqueó el binario) y la rama `infra/supabase` no está en el remoto: si existe en la compu del usuario, correr `gitleaks detect --log-opts="--all"` allá.
+- **Escaneo de secretos:** hecho el 2026-11-13 con gitleaks (ver "Verificación local"). La rama `infra/supabase` no existe ni local ni en el remoto: si aparece, repetir el escaneo.
 - **OpenStreetMap real:** la nube bloquea las teselas y Nominatim; las pruebas los simulan. Falta ver el mapa y una búsqueda de dirección reales. Detalle en `docs/context/mapa-y-ubicacion.md`.
 - **Fotos en iPhone real:** la cámara desde la app instalada no se probó. Checklist en `docs/context/pruebas-y-verificacion.md`.
 - **iPhone real:** instalación en pantalla de inicio, safe areas e ícono. Checklist en `docs/context/pruebas-y-verificacion.md`.
