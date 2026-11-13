@@ -66,3 +66,15 @@
   object-fit: cover;
   border-radius: var(--radius-sm);
 }
+
+.lockedItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.lockedCategory {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

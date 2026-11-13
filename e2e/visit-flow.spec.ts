@@ -163,3 +163,41 @@ test('attaches a compressed photo to an item and a menu photo to a place', async
   await page.getByRole('link', { name: /Chipá.*Última vez/ }).click();
   await expect(page.getByRole('article').first().getByRole('img', { name: /^Chipá, / })).toBeVisible();
 });
+
+test('edits a saved visit: date, note and the details of its items', async ({ page }) => {
+  await openPlace(page, 'Albuche');
+  const visit = page.getByRole('article', { name: 'Visita del 10/10/2026' });
+  await visit.getByRole('link', { name: 'Editar visita' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Editar visita' })).toBeVisible();
+
+  // The item stays as recorded: no name or category inputs.
+  const fields = itemFields(page, 1);
+  await expect(fields.getByLabel('¿Qué pediste?')).toHaveCount(0);
+  await expect(fields.getByLabel('Categoría')).toHaveCount(0);
+
+  await page.getByLabel('Fecha').fill('2026-10-12');
+  await rate(fields, '2');
+  await fields.getByLabel('Precio total ($)').fill('7777');
+  await fields.getByLabel('Comentario').fill('Corregido: estaba fría.');
+  await page.getByLabel('Nota de la visita (opcional)').fill('Fuimos de noche.');
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole('button', { name: 'Guardar cambios' }).click();
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Albuche' })).toBeVisible();
+  const edited = page.getByRole('article', { name: 'Visita del 12/10/2026' });
+  await expect(edited).toContainText('Fuimos de noche.');
+  await expect(edited).toContainText('$ 7.777');
+  await expect(edited).toContainText('Corregido: estaba fría.');
+  await expect(edited.getByRole('img', { name: '2 de 5', exact: true })).toBeVisible();
+  await expect(page.getByRole('article', { name: 'Visita del 10/10/2026' })).toHaveCount(0);
+});
+
+test('editing a visit with a wrong date shows the error and keeps the visit', async ({ page }) => {
+  await openPlace(page, 'Albuche');
+  const visit = page.getByRole('article', { name: 'Visita del 10/10/2026' });
+  await visit.getByRole('link', { name: 'Editar visita' }).click();
+  await page.getByLabel('Fecha').fill('');
+  await page.getByRole('button', { name: 'Guardar cambios' }).click();
+  await expect(page.getByText('Elegí una fecha válida.')).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Editar visita' })).toBeVisible();
+});

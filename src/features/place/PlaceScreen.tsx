@@ -208,12 +208,17 @@ function PlaceContent({ dataset, placeId }: { dataset: Dataset; placeId: string 
                 key={detail.visit.id}
                 detail={detail}
                 footer={
-                  <ConfirmButton
-                    label="Borrar visita"
-                    question="Se borra la visita con todo lo que pidieron. No se puede deshacer."
-                    confirmLabel="Sí, borrar"
-                    onConfirm={() => void change(() => repository.deleteVisit(detail.visit.id))}
-                  />
+                  <>
+                    <Link to={routes.editVisit(detail.visit.id)} className={buttonClassName('secondary')}>
+                      Editar visita
+                    </Link>
+                    <ConfirmButton
+                      label="Borrar visita"
+                      question="Se borra la visita con todo lo que pidieron. No se puede deshacer."
+                      confirmLabel="Sí, borrar"
+                      onConfirm={() => void change(() => repository.deleteVisit(detail.visit.id))}
+                    />
+                  </>
                 }
               />
             ))}

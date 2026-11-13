@@ -37,23 +37,30 @@ PRs abiertos (pila): #2 H1 → `main`; #3 H2 → `feat/h1-dominio`; #4 H4 → `f
   - `docs/DEPLOY.md` con los pasos del usuario; workflow `.github/workflows/deploy.yml`; README con instalación en iPhone y Android y checklist de pruebas en iPhone real.
   - Prueba e2e de que la app abre sin red (service worker): pasa en Chromium. Total e2e: 22.
   - Escaneo de secretos: solo las plantillas `.env` están versionadas y una búsqueda por patrones en el historial de las ramas de la app no encontró nada.
+- **Editar visita** (2026-11-13):
+  - Pantalla `/visits/:id/edit` (botón "Editar visita" en la página del lugar): cambia fecha, nota y, por ítem, puntaje, precio, cantidad, comentario, "volverías a pedirlo" y foto. El lugar y los ítems pedidos quedan como se registraron (no se puede agregar ni quitar ítems; para eso, borrar y cargar de nuevo).
+  - Reutiliza `TastingFields` con `lockItem` y la validación `validateVisitDraft`. 2 pruebas e2e nuevas (total 24 en Chromium), `lint`, `typecheck`, `build` y `test` pasan.
 - **CI de los seis PR (#1 a #6):** los dos jobs en verde en cada uno, incluido e2e en Chromium y WebKit móviles (2026-11-12). Con eso queda cumplido el criterio de salida de H2 (Chromium y WebKit).
+- **Verificación local** (2026-11-13, en la compu, rama `claude/determined-bardeen-jhgrmn`):
+  - Escaneo de secretos: `gitleaks detect --log-opts="--all" --redact -v` (v8.30.1, binario oficial con checksum verificado) sobre todas las ramas locales y remotas: 26 commits en el historial (16 con cambios; los 10 merges no tienen diff). Sin hallazgos. Mensajes de commit sin `service_role`, `password`, `sbp_` ni `eyJ`; `token` solo aparece en "design tokens".
+  - `lint`, `typecheck`, `build` pasan; `test`: 66 tests. e2e `chromium-mobile`: 24 pasan. e2e `webkit-mobile`: 24 pasan con `--workers=1`; con workers en paralelo fallaron 5 por tiempos en la compu (flaky local, no verificado si es de la app o de carga).
+  - A mano en `npm run dev` (viewport móvil): editar una visita de Albuche (fecha, puntaje, precio y nota) la deja actualizada y recalcula el promedio; en el ítem se puede agregar, cambiar y quitar la foto.
 
 ## Sin verificar
 
-- **WebKit local:** en la nube no hay WebKit; lo verifica solo el job "E2E" de CI. WebKit de Playwright no es Safari de iOS: falta el checklist de iPhone del README.
-- **Deploy:** el workflow de Pages nunca corrió. Entra a `main` recién con el PR #6 y Pages no está activado.
-- **Escaneo de secretos incompleto:** no se usó `gitleaks` y no se revisó la rama `infra/supabase` (no estaba en el remoto). Repetir según `docs/DEPLOY.md` antes de hacer público el repo.
+- **WebKit local:** verificado en la compu el 2026-11-13 (ver "Verificación local"). WebKit de Playwright no es Safari de iOS: falta el checklist de iPhone del README.
+- **Deploy:** según el usuario (2026-11-13) la app ya está desplegada en Pages e instalada en su teléfono; no lo verifiqué desde la nube. Falta confirmar que el workflow terminó en verde.
+- **Escaneo de secretos:** hecho el 2026-11-13 con gitleaks (ver "Verificación local"). La rama `infra/supabase` no existe ni local ni en el remoto: si aparece, repetir el escaneo.
 - **OpenStreetMap real:** la nube bloquea las teselas y Nominatim; las pruebas los simulan. Falta ver el mapa y una búsqueda de dirección reales. Detalle en `docs/context/mapa-y-ubicacion.md`.
 - **Fotos en iPhone real:** la cámara desde la app instalada no se probó. Checklist en `docs/context/pruebas-y-verificacion.md`.
 - **iPhone real:** instalación en pantalla de inicio, safe areas e ícono. Checklist en `docs/context/pruebas-y-verificacion.md`.
 
 ## Sigue
 
-1. **Usuario:** seguir mergeando la pila en orden (#2 a #6).
+1. ~~Mergear la pila (#2 a #6)~~: hecho, `main` incluye hasta el PR #6.
 2. **H3:** integración con Supabase, cuando el usuario avise que el backend está listo (`docs/SETUP_SUPABASE.md` con "LISTO PARA H3"). Implica `src/data/supabase/`, login con las dos cuentas, URLs firmadas para fotos, y correr los mismos e2e contra Supabase más la prueba de RLS con un usuario ajeno.
-3. **Usuario:** pasos de `docs/DEPLOY.md` (revisión de secretos, visibilidad, Pages, variables) y checklist de iPhone del README.
-4. Pendiente menor: pantalla para editar una visita ya cargada.
+3. **Usuario:** checklist de iPhone del README y agregar la URL de Pages en Supabase (Authentication → URL Configuration) cuando esté H3.
+4. ~~Pantalla para editar una visita~~: hecha (ver "Editar visita" arriba).
 
 ## Decisiones tomadas
 
@@ -71,7 +78,7 @@ PRs abiertos (pila): #2 H1 → `main`; #3 H2 → `feat/h1-dominio`; #4 H4 → `f
 - H5: el gasto por mes suma solo los ítems con precio y avisa cuántos no lo tienen. Se agregaron precios inventados al seed para que haya datos.
 - H5: "este mes" es el mes calendario del dispositivo.
 - H4: las coordenadas del seed son aproximadas (puestas a ojo), no relevadas.
-- H4: se puede editar y borrar un lugar y borrar una visita. **Falta editar** una visita o una degustación ya cargada (el repositorio lo soporta; no hay pantalla). Hoy se corrige borrando la visita y cargándola de nuevo.
+- H4: se puede editar y borrar un lugar y borrar una visita. Editar una visita ya cargada quedó para después y se hizo el 2026-11-13.
 - H4: "de siempre" y "quiero ir" son vistas de la pantalla Lugares, no pestañas propias.
 - H2: la app en memoria arranca con el seed y pierde los cambios al recargar.
 - H1: el seed usa fechas, precios y comentarios inventados (el brief los declara ilustrativos) y deja los lugares sin coordenadas hasta H4.

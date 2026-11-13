@@ -135,7 +135,7 @@ test('sets a place location by address search, by tapping the map and by "Estoy 
   await context.setGeolocation({ latitude: -31.4301, longitude: -64.1801 });
 
   await openPlace(page, 'Perdú');
-  await page.getByRole('link', { name: 'Editar' }).click();
+  await page.getByRole('link', { name: 'Editar', exact: true }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Editar lugar' })).toBeVisible();
   const map = page.getByRole('region', { name: 'Mapa para ubicar el lugar' });
   const pin = map.getByRole('button', { name: 'Ubicación elegida' });
@@ -183,7 +183,7 @@ test('deletes a visit and a place after confirming', async ({ page }) => {
   await expect(page.getByRole('article')).toHaveCount(2);
   await expect(page.getByText('2 visitas')).toBeVisible();
 
-  await page.getByRole('link', { name: 'Editar' }).click();
+  await page.getByRole('link', { name: 'Editar', exact: true }).click();
   await page.getByRole('button', { name: 'Borrar lugar' }).click();
   await page.getByRole('button', { name: 'Sí, borrar' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Lugares' })).toBeVisible();

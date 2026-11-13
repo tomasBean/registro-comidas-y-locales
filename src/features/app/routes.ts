@@ -8,5 +8,6 @@ export const routes = {
   stats: () => '/stats',
   place: (placeId: string) => `/places/${placeId}`,
   item: (itemId: string) => `/items/${itemId}`,
+  editVisit: (visitId: string) => `/visits/${visitId}/edit`,
   newVisit: (placeId?: string) => (placeId ? `/visits/new?place=${encodeURIComponent(placeId)}` : '/visits/new'),
 };
