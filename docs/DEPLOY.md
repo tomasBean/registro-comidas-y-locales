@@ -6,15 +6,13 @@ La app queda en `https://tomasbean.github.io/registro-comidas-y-locales/`.
 
 ## Estado
 
-- Workflow de deploy escrito: `.github/workflows/deploy.yml`. Corre al mergear a `main` o a mano. **Nunca corrió todavía**: entra a `main` con el PR #6 y Pages no está activado.
+- Workflow de deploy: `.github/workflows/deploy.yml`, corre al mergear a `main` o a mano. Según el usuario (2026-11-13) Pages ya está activo y la app instalada en su teléfono.
 - Workflow de CI: `.github/workflows/ci.yml`, en cada PR.
 - Hoy la app usa datos de ejemplo en memoria. Hasta que se integre Supabase (hito H3), lo publicado es una demo: los cambios se pierden al recargar.
 
 ## 0. Mergear la pila de PR
 
-`main` ya existe y el PR #1 está mergeado. Quedan los PR #2 a #6, apilados: cada uno apunta a la rama del anterior.
-
-Mergearlos **en orden** con *merge commit*, no squash. Después de mergear uno, revisar que la base del siguiente sea `main`; si no cambió sola, editarla desde el PR.
+Hecho: los PR #1 a #6 están mergeados en `main`.
 
 ## 1. Revisión de secretos (antes de hacer público el repo)
 

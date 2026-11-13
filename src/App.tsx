@@ -10,6 +10,7 @@ import { PlaceFormScreen } from './features/place-form/PlaceFormScreen';
 import { PlaceScreen } from './features/place/PlaceScreen';
 import { PlacesScreen } from './features/places/PlacesScreen';
 import { StatsScreen } from './features/stats/StatsScreen';
+import { EditVisitScreen } from './features/visit-edit/EditVisitScreen';
 import { VisitFormScreen } from './features/visit-form/VisitFormScreen';
 import { BottomNav } from './ui/layout/BottomNav';
 import type { BottomNavItem } from './ui/layout/BottomNav';
@@ -84,6 +85,7 @@ export function App() {
           <Route path="/stats" element={<StatsScreen />} />
           <Route path="/items/:itemId" element={<ItemScreen />} />
           <Route path="/visits/new" element={<VisitFormScreen />} />
+          <Route path="/visits/:visitId/edit" element={<EditVisitScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <MainNav />

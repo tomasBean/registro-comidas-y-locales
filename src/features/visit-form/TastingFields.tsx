@@ -25,6 +25,8 @@ interface TastingFieldsProps {
   entry: TastingEntry;
   errors?: VisitDraftErrors['tastingFields'][number];
   canRemove: boolean;
+  /** Editing a saved item: its name and category stay as they were recorded. */
+  lockItem?: boolean;
   onChange: (patch: Partial<TastingEntry>) => void;
   onRemove: () => void;
   onPickPhoto: (file: File) => void;
@@ -44,12 +46,13 @@ export function TastingFields({
   entry,
   errors = {},
   canRemove,
+  lockItem = false,
   onChange,
   onRemove,
   onPickPhoto,
   onRemovePhoto,
 }: TastingFieldsProps) {
-  const known = placeId
+  const known = placeId && !lockItem
     ? ((entry.itemId ? dataset.items.find((item) => item.id === entry.itemId) : null) ??
       findItemByName(dataset, placeId, entry.itemName))
     : null;
@@ -62,51 +65,60 @@ export function TastingFields({
       <fieldset className={styles.tasting}>
         <legend className={styles.tastingTitle}>{title}</legend>
 
-        <TextField
-          label="¿Qué pediste?"
-          placeholder="Chipá, triple, papas…"
-          value={entry.itemName}
-          onChange={(event) => onChange({ itemName: event.target.value, itemId: null })}
-          error={errors.item ? 'Decinos qué pediste.' : undefined}
-          hint={known ? `Ya lo pidieron antes: se suma al historial de ${known.name}.` : undefined}
-          autoComplete="off"
-        />
-        {itemSuggestions.length > 0 ? (
-          <ChipRow label={`Pedidos anteriores, ${title}`}>
-            {itemSuggestions.map((item) => (
-              <Chip key={item.id} onClick={() => onChange({ itemId: item.id, itemName: item.name, category: item.category })}>
-                {item.name}
-              </Chip>
-            ))}
-          </ChipRow>
-        ) : null}
-
-        {!known ? (
+        {lockItem ? (
+          <p className={styles.lockedItem}>
+            <strong>{entry.itemName}</strong>
+            {entry.category ? <span className={styles.lockedCategory}>{entry.category}</span> : null}
+          </p>
+        ) : (
           <>
             <TextField
-              label="Categoría"
-              placeholder="Chipá, hamburguesa…"
-              hint="Sirve para comparar el mismo tipo de plato entre lugares."
-              value={entry.category}
-              onChange={(event) => onChange({ category: event.target.value })}
+              label="¿Qué pediste?"
+              placeholder="Chipá, triple, papas…"
+              value={entry.itemName}
+              onChange={(event) => onChange({ itemName: event.target.value, itemId: null })}
+              error={errors.item ? 'Decinos qué pediste.' : undefined}
+              hint={known ? `Ya lo pidieron antes: se suma al historial de ${known.name}.` : undefined}
               autoComplete="off"
-              autoCapitalize="none"
             />
-            {categorySuggestions.length > 0 ? (
-              <ChipRow label={`Categorías usadas, ${title}`}>
-                {categorySuggestions.map((category) => (
-                  <Chip
-                    key={category.key}
-                    selected={category.key === textKey(entry.category)}
-                    onClick={() => onChange({ category: category.label })}
-                  >
-                    {category.label}
+            {itemSuggestions.length > 0 ? (
+              <ChipRow label={`Pedidos anteriores, ${title}`}>
+                {itemSuggestions.map((item) => (
+                  <Chip key={item.id} onClick={() => onChange({ itemId: item.id, itemName: item.name, category: item.category })}>
+                    {item.name}
                   </Chip>
                 ))}
               </ChipRow>
             ) : null}
+
+            {!known ? (
+              <>
+                <TextField
+                  label="Categoría"
+                  placeholder="Chipá, hamburguesa…"
+                  hint="Sirve para comparar el mismo tipo de plato entre lugares."
+                  value={entry.category}
+                  onChange={(event) => onChange({ category: event.target.value })}
+                  autoComplete="off"
+                  autoCapitalize="none"
+                />
+                {categorySuggestions.length > 0 ? (
+                  <ChipRow label={`Categorías usadas, ${title}`}>
+                    {categorySuggestions.map((category) => (
+                      <Chip
+                        key={category.key}
+                        selected={category.key === textKey(entry.category)}
+                        onClick={() => onChange({ category: category.label })}
+                      >
+                        {category.label}
+                      </Chip>
+                    ))}
+                  </ChipRow>
+                ) : null}
+              </>
+            ) : null}
           </>
-        ) : null}
+        )}
 
         <RatingInput
           label={errors.rating ? 'Puntaje (falta elegirlo)' : 'Puntaje'}

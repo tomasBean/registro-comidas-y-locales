@@ -16,3 +16,4 @@ Cómo está armada la interfaz y qué se decidió. Actualizado: 2026-11-11 (H2).
 - **Campos de texto a 16 px** como mínimo: evita el zoom automático de Safari en iOS.
 
 Relacionado: [modelo de datos](modelo-de-datos.md), [pruebas y verificación](pruebas-y-verificacion.md).
+- **Editar visita** (`features/visit-edit/`): `useEditVisit` arma el estado desde `visitDetail`. Solo cambian fecha, nota y los datos de cada ítem; el lugar y los ítems quedan fijos (`lockItem` en `TastingFields`) porque cambiarlos altera el historial de un ítem. Las fotos nuevas se suben al guardar y la ruta subida se recuerda para no duplicarla si un paso posterior falla.
